@@ -1,0 +1,19 @@
+<snippet>
+	<content><![CDATA[
+#include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+
+using namespace std;
+using namespace __gnu_pbds;
+
+// Define the ordered_set template with a customizable comparator
+template<typename T, typename Compare = less<T>>
+using ordered_set = tree<T, null_type, Compare, rb_tree_tag, tree_order_statistics_node_update>;
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>ordered_set</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
