@@ -1,0 +1,50 @@
+<snippet>
+	<content><![CDATA[
+
+// #define ll long long
+class Graph {
+public:
+    vector<vector<ll>> adjList;
+    ll n;
+    ll startNode;
+
+    Graph(ll n, ll startWith) : n(n), startNode(startWith) {
+        adjList.resize(n + startNode);
+    }
+
+    Graph(ll n, ll startWith, const vector<tuple<ll, ll>>& edgeList) : Graph(n, startWith) {
+        addEdges(edgeList);
+    }
+
+    virtual void addEdge(ll u, ll v) {
+        adjList[u].emplace_back(v);
+    }
+
+    template <typename Container>
+    void addEdges(const Container& edgeList) {
+        for (const auto& edge : edgeList) {
+            ll u, v;
+            tie(u, v) = edge;
+            addEdge(u, v);
+        }
+    }
+
+    virtual void printGraph() const {
+        cout << "Starting node: " << startNode << endl;
+        for (ll i = 0; i < adjList.size(); ++i) {
+            cout << "Node " << i << " makes an edge with: \n";
+            for (const auto& neighbor : adjList[i]) {
+                cout << "\tNode " << neighbor << "\n";
+            }
+            cout << endl;
+        }
+    }
+};
+// tested -> https://atcoder.jp/contests/abc375/submissions/58915540
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>graph</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

@@ -1,0 +1,57 @@
+<snippet>
+	<content><![CDATA[
+
+// import Graph class
+class WeightedGraph : virtual public Graph {
+public:
+    vector<vector<ll>> costList;
+
+    WeightedGraph(ll n, ll startWith) : Graph(n, startWith) {
+        costList.resize(n + startNode);
+    }
+
+    WeightedGraph(ll n, ll startWith, const vector<tuple<ll, ll, ll>>& edgeList) 
+        : Graph(n, startWith) {
+        costList.resize(n + startNode);
+        addEdges(edgeList);
+    }
+
+    virtual void addEdge(ll u, ll v, ll cost) {
+        adjList[u].emplace_back(v);
+        costList[u].emplace_back(cost);
+    }
+
+    void addEdge(ll u, ll v) override {
+        cout << "This method is not applicable for WeightedGraph." << endl;
+    }
+
+    template <typename Container>
+    void addEdges(const Container& edgeList) {
+        for (const auto& edge : edgeList) {
+            ll u, v, cost;
+            tie(u, v, cost) = edge;
+            addEdge(u, v, cost);
+        }
+    }
+
+    void printGraph() const override {
+        cout << "Starting node: " << startNode << endl;
+        for (ll i = 0; i < adjList.size(); ++i) {
+            cout << "Node " << i << " makes an edge with: \n";
+            for (ll j = 0; j < adjList[i].size(); ++j) {
+                cout << "\tNode " << adjList[i][j] << " with cost " << costList[i][j] << "\n";
+            }
+            cout << endl;
+        }
+    }
+};
+// tested -> https://atcoder.jp/contests/abc375/submissions/58915540
+
+
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>weightedGraph</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

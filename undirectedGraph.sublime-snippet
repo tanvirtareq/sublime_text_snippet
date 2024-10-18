@@ -1,0 +1,26 @@
+<snippet>
+	<content><![CDATA[
+
+
+// import Graph class
+class UndirectedGraph : virtual public Graph {
+public:
+    UndirectedGraph(ll n, ll startWith) : Graph(n, startWith) {}
+
+    UndirectedGraph(ll n, ll startWith, const vector<tuple<ll, ll>>& edgeList)
+        : Graph(n, startWith, edgeList) {}
+
+    void addEdge(ll u, ll v) override {
+        adjList[u].emplace_back(v);
+        adjList[v].emplace_back(u);
+    }
+};
+// tested -> https://atcoder.jp/contests/abc375/submissions/58915540
+
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>undirectedGraph</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

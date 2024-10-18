@@ -1,0 +1,62 @@
+<snippet>
+	<content><![CDATA[
+
+class ArticulationBridge {
+public:
+    const Graph& graph;
+    vector<int> ids;
+    vector<int> low;
+    vector<bool> visited;
+    vector<int> articulationPoints;
+    vector<pair<int, int>> bridges;
+    int id = 0;
+
+    void dfs(int at, int parent, int& outEdgeCount) {
+        visited[at] = true;
+        ids[at] = low[at] = id++;
+        for (int to : graph.adjList[at]) {
+            if (to == parent) continue;
+            if (!visited[to]) {
+                if (parent == -1) outEdgeCount++;
+                dfs(to, at, outEdgeCount);
+                low[at] = min(low[at], low[to]);
+                if (ids[at] < low[to]) {
+                    bridges.emplace_back(at, to);
+                }
+                if (ids[at] <= low[to] && parent != -1) {
+                    articulationPoints.push_back(at);
+                }
+            } else {
+                low[at] = min(low[at], ids[to]);
+            }
+        }
+        if (parent == -1 && outEdgeCount > 1) {
+            articulationPoints.push_back(at);
+        }
+    }
+
+    ArticulationBridge(const Graph& graph) : graph(graph) {
+        ids.resize(graph.adjList.size(), -1);
+        low.resize(graph.adjList.size(), 0);
+        visited.resize(graph.adjList.size(), false);
+        findArticulationPointsAndBridges();
+    }
+
+    void findArticulationPointsAndBridges() {
+        for (int i = graph.startNode; i < graph.adjList.size(); ++i) {
+            if (!visited[i]) {
+                int outEdgeCount = 0;
+                dfs(i, -1, outEdgeCount);
+            }
+        }
+    }
+};
+// tested -> https://atcoder.jp/contests/abc375/submissions/58915540
+
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>articulationBridge</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>

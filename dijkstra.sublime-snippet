@@ -1,0 +1,43 @@
+<snippet>
+	<content><![CDATA[
+
+
+void dijkstra(const WeightedGraph& graph, ll startNode, vector<ll>& distances, vector<ll>& predecessors, ll inf = INF) {
+    const auto& adjList = graph.adjList;
+    const auto& costList = graph.costList;
+
+    ll n = adjList.size();
+    distances.assign(n, inf);
+    predecessors.assign(n, -1);
+    
+    distances[startNode] = 0;
+    set<pair<ll, ll>> priorityQueue;  // {distance, node}
+    priorityQueue.insert({0, startNode});
+
+    while (!priorityQueue.empty()) {
+        ll currentNode = priorityQueue.begin()->second;
+        priorityQueue.erase(priorityQueue.begin());
+
+        for (size_t i = 0; i < adjList[currentNode].size(); ++i) {
+            ll neighbor = adjList[currentNode][i];
+            ll edgeCost = costList[currentNode][i];
+
+            if (distances[currentNode] + edgeCost < distances[neighbor]) {
+                priorityQueue.erase({distances[neighbor], neighbor});
+                distances[neighbor] = distances[currentNode] + edgeCost;
+                predecessors[neighbor] = currentNode;
+                priorityQueue.insert({distances[neighbor], neighbor});
+            }
+        }
+    }
+}
+// tested -> https://atcoder.jp/contests/abc375/submissions/58915540
+
+
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>dijkstra</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
